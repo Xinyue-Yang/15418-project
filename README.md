@@ -1,6 +1,6 @@
 # Parallel maximum flow
 
-The project proposal can be found ![here](docs/proposal.pdf).
+The project proposal can be found [here](docs/proposal.pdf).
 
 ## Project information
 
