@@ -1,8 +1,11 @@
-#include <stdio.h>
+#include "network.h"
+#include "utils.h"
 
-#include <omp.h>
+int main(const int argc, char **const argv) {
+    std::string input_file;
+    std::string output_file;
+    parse_args(argc, argv, input_file, output_file);
 
-int main() {
-#pragma omp parallel
-    printf("Hello from thread %d\n", omp_get_thread_num());
+    Network network;
+    input_network(input_file, network);
 }
