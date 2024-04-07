@@ -41,9 +41,25 @@ void input_network(const std::string& input_file, Network& network) {
         throw std::runtime_error("invalid input file");
 }
 
+void output_time(
+    const steady_clock::time_point &init_start,
+    const steady_clock::time_point &compute_start,
+    const steady_clock::time_point &compute_finish
+) {
+    std::cout << "[time]" << std::endl;
+    std::cout << "init_time = "
+        << duration_cast<milliseconds>(compute_start - init_start).count()
+        << std::endl;
+    std::cout << "compute_time = "
+        << duration_cast<milliseconds>(compute_finish - compute_start).count()
+        << std::endl;
+    std::cout << std::endl;
+}
+
 void output_network(const std::string& output_file, const Network& network) {
     std::cout << "[maximum_flow]" << std::endl;
     std::cout << "value = " << network.evaluate_flow() << std::endl;
+    std::cout << std::endl;
 
     if (std::ofstream sout{output_file}; sout)
         sout << network;
