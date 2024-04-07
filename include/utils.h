@@ -19,3 +19,5 @@ void parse_args(
 );
 
 void input_network(const std::string& input_file, Network& network);
+
+void output_network(const std::string& output_file, const Network& network);

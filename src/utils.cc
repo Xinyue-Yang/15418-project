@@ -15,13 +15,13 @@ void parse_args(
             }
             default: {
                 std::cerr << "Usage: " << argv[0] << ' ' << ARGS << std::endl;
-                throw std::runtime_error("invalid arguments");
+                throw std::runtime_error("invalid args");
             }
         }
 
     if (std::empty(network_name)) {
         std::cerr << "Usage: " << argv[0] << ' ' << ARGS << std::endl;
-        throw std::runtime_error("invalid arguments");
+        throw std::runtime_error("invalid args");
     }
 
     input_file = "input/" + network_name + ".network";
@@ -35,6 +35,18 @@ void parse_args(
 }
 
 void input_network(const std::string& input_file, Network& network) {
-    if (not (std::ifstream{input_file} >> network))
+    if (std::ifstream sin{input_file}; sin)
+        sin >> network;
+    else
         throw std::runtime_error("invalid input file");
+}
+
+void output_network(const std::string& output_file, const Network& network) {
+    std::cout << "[maximum_flow]" << std::endl;
+    std::cout << "value = " << network.evaluate_flow() << std::endl;
+
+    if (std::ofstream sout{output_file}; sout)
+        sout << network;
+    else
+        throw std::runtime_error("invalid output file");
 }
