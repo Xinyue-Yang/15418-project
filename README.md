@@ -22,11 +22,11 @@ and analyze their performance on GHC and
 ## Schedule
 
 - Week 1 (Mar. 25th--Mar. 31st): literature review, brainstorming, outlining
-  - :white_check_mark:: Discussed and defined the scope of the project
+  - DONE: Discussed and defined the scope of the project
 - Week 2 (Apr. 1st--Apr. 7th): sequential implementation, testing framework,
 test cases
-  - :white_check_mark:: Completed the sequential implementation
-  - :hourglass_flowing_sand: Writing more test cases;
+  - DONE: Completed the sequential implementation
+  - IN PROGRESS: Writing more test cases;
   setting up batch testing framework
 - Week 3 (Apr. 8th--Apr. 14th): initial parallel implementation, initial
 profiling, improving testing framework, more test cases
