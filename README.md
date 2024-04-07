@@ -19,6 +19,25 @@ under the shared address space model
 and analyze their performance on GHC and
 [PSC](https://www.psc.edu/) machines.
 
+## Schedule
+
+- Week 1 (Mar. 25th--Mar. 31st): literature review, brainstorming, outlining
+  - :white_check_mark:: Discussed and defined the scope of the project
+- Week 2 (Apr. 1st--Apr. 7th): sequential implementation, testing framework,
+test cases
+  - :white_check_mark:: Completed the sequential implementation
+  - :hourglass_flowing_sand: Writing more test cases;
+  setting up batch testing framework
+- Week 3 (Apr. 8th--Apr. 14th): initial parallel implementation, initial
+profiling, improving testing framework, more test cases
+- Week 4 (Apr. 15th--Apr. 21st): milestone report, improving parallel
+implementation, more profiling, initial data analysis and visualization
+- Week 5 (Apr. 22nd--Apr. 28th): more profiling, more data analysis and
+visualization
+- Week 6 (Apr. 29th--May. 5th): final data analysis and visualization, final
+report, poster
+
+
 ## Background
 
 Flow in general is widely used to model constrained resource distribution problems.
@@ -162,18 +181,4 @@ operating under the shared address space model).
 Regarding the machines,
 we will just stick to the default for now but are definitely open to advice and
 feedback.
-
-## Schedule
-
-- Week 1 (Mar. 25th--Mar. 31st): literature review, brainstorming, outlining
-- Week 2 (Apr. 1st--Apr. 7th): sequential implementation, testing framework,
-test cases
-- Week 3 (Apr. 8th--Apr. 14th): initial parallel implementation, initial
-profiling, improving testing framework, more test cases
-- Week 4 (Apr. 15th--Apr. 21st): milestone report, improving parallel
-implementation, more profiling, initial data analysis and visualization
-- Week 5 (Apr. 22nd--Apr. 28th): more profiling, more data analysis and
-visualization
-- Week 6 (Apr. 29th--May. 5th): final data analysis and visualization, final
-report, poster
 
