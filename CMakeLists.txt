@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenMP REQUIRED)
 
-add_executable(main main.cc src/network.cc src/utils.cc)
+add_executable(main main.cc
+    src/network.cc src/utils.cc
+    src/sequential/dinics.cc)
 
 target_include_directories(main PRIVATE include)
 target_compile_options(main PRIVATE -Wall -Wextra -Wshadow -Wpedantic)
