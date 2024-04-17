@@ -25,5 +25,5 @@ public:
     friend std::istream& operator>>(std::istream& sin, Network& network);
     friend std::ostream& operator<<(std::ostream& sout, const Network& network);
 
-    int evaluate_flow() const;
+    long long evaluate_flow() const;
 };

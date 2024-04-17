@@ -54,7 +54,7 @@ std::ostream& operator<<(std::ostream& sout, const Network& network) {
     return sout;
 }
 
-int Network::evaluate_flow() const {
+long long Network::evaluate_flow() const {
     for (int i{}; i < num_edges; ++i)
         if (auto cap{edges[2 * i].cap},
             flow{edges[2 * i].flow},
@@ -64,7 +64,7 @@ int Network::evaluate_flow() const {
                 "invalid flow: cap constraint violated or bad residual flow"
             );
 
-    std::vector<int> flow_io(num_verts);
+    std::vector<long long> flow_io(num_verts);
     for (int i{}; i < num_edges; ++i) {
         const auto& [from, to, cap, flow]{edges[2 * i]};
         flow_io[from] -= flow;
@@ -72,7 +72,7 @@ int Network::evaluate_flow() const {
     }
 
     for (int u{}; u < num_verts; ++u)
-        if (not (u == source or u == sink or flow_io[u] == 0))
+        if (not (u == source or u == sink or flow_io[u] == 0ll))
             throw std::runtime_error(
                 "invalid flow: conservation constraint violated"
             );

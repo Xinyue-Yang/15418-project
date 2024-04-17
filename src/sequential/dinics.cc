@@ -9,8 +9,10 @@ namespace sequential {
         std::queue<int> queue{};
         std::vector<int> curr(num_verts);
 
-        std::function<int(int, int)> dfs{[&dfs, &network, &dist, &curr](
-            const int u, const int flow_in
+        std::function<long long(int, long long)>
+        dfs{[&dfs, &network, &dist, &curr](
+            const int u,
+            const long long flow_in
         ) -> int {
             if (u == network.sink)
                 return flow_in;
@@ -18,14 +20,15 @@ namespace sequential {
             const auto degree{static_cast<int>(std::size(network.adj[u]))};
             const auto child_dist{dist[u] + 1};
 
-            int flow_out{};
+            long long flow_out{};
             for (auto& i{curr[u]}; i < degree; ++i) {
                 const auto j{network.adj[u][i]};
                 if (auto& [from, to, cap, flow]{network.edges[j]};
                     flow < cap and dist[to] == child_dist) {
-                    const auto flow_pushed{
-                        dfs(to, std::min(flow_in - flow_out, cap - flow))
-                    };
+                    const auto flow_pushed{static_cast<int>(dfs(to, std::min(
+                        flow_in - flow_out,
+                        static_cast<long long>(cap - flow)
+                    )))};
 
                     flow += flow_pushed;
                     network.edges[j ^ 1].flow -= flow_pushed;
@@ -63,7 +66,7 @@ namespace sequential {
 
             std::fill(std::begin(curr), std::end(curr), 0);
 
-            while (dfs(source, inf) > 0);
+            while (dfs(source, inf) > 0ll);
         }
     }
 };
