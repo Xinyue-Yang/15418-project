@@ -14,3 +14,9 @@ add_executable(main main.cc
 target_include_directories(main PRIVATE include)
 target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic)
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX)
+
+add_executable(generator generator.cc)
+
+target_include_directories(main PRIVATE)
+target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic)
+target_link_libraries(main PRIVATE)
