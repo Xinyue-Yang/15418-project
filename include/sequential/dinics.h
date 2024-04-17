@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+#include <limits>
 #include <queue>
 
 #include "network.h"

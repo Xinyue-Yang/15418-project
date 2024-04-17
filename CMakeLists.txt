@@ -12,5 +12,5 @@ add_executable(main main.cc
     src/sequential/dinics.cc)
 
 target_include_directories(main PRIVATE include)
-target_compile_options(main PRIVATE -Wall -Wextra -Wshadow -Wpedantic)
+target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic)
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX)
