@@ -15,7 +15,7 @@ namespace sequential {
             const long long flow_in
         ) -> int {
             if (u == network.sink)
-                return flow_in;
+                return static_cast<int>(flow_in);
 
             const auto degree{static_cast<int>(std::size(network.adj[u]))};
             const auto child_dist{dist[u] + 1};
@@ -35,12 +35,12 @@ namespace sequential {
 
                     if ((flow_out += flow_pushed) == flow_in) {
                         i += static_cast<int>(flow == cap);
-                        return flow_out;
+                        return static_cast<int>(flow_out);
                     }
                 }
             }
 
-            return flow_out;
+            return static_cast<int>(flow_out);
         }};
 
         while (true) {

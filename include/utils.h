@@ -15,8 +15,8 @@ constexpr auto ARGS{
 };
 
 void parse_args(
-    const int argc,
-    char **const argv,
+    int argc,
+    char **argv,
     std::string& input_file,
     std::string& output_file
 );
