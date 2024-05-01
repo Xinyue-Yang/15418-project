@@ -68,7 +68,6 @@ int main(const int argc, char **const argv) {
     std::uniform_int_distribution dis_vert(0, num_verts - 1);
     std::uniform_int_distribution dis_cap(1, max_cap);
 
-
     if (std::ofstream sout{input_file}; sout) {
         const auto source{dis_vert(gen)};
         int sink;

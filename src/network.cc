@@ -26,8 +26,6 @@ std::istream& operator>>(std::istream& sin, Network& network) {
         if (sin >> from >> to >> cap; not (
             0 <= from and from < num_verts
             and 0 <= to and to < num_verts
-            and from != to and from != sink and to != source
-            and cap >= 0
         ))
             throw std::runtime_error("invalid network");
 
