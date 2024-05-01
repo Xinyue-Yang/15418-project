@@ -25,7 +25,7 @@ void parse_args(
     }
 
     input_file = "input/" + network_name + ".network";
-    output_file = "output/" + network_name + ".flow";
+    output_file = "output/" + network_name + ".network";
 
     std::cout << "[args]" << std::endl;
     std::cout << "network_name = \"" << network_name << "\"" << std::endl;
