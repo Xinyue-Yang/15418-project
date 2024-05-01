@@ -1,4 +1,4 @@
-#include "sequential/dinics.h"
+#include "parallel/dinics.h"
 
 namespace {
     constexpr auto inf{std::numeric_limits<int>::max()};
@@ -65,7 +65,7 @@ namespace {
     }
 };
 
-namespace sequential {
+namespace parallel {
     void run_dinics(Network& network) {
         auto& [num_verts, source, sink, num_edges, edges, adj]{network};
 
