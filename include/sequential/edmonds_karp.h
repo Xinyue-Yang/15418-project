@@ -1,5 +1,8 @@
 #pragma once
 
+#include <limits>
+#include <queue>
+
 #include "network.h"
 
 namespace sequential {

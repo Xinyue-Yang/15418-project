@@ -1,5 +1,6 @@
 #include <unistd.h>
 
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <random>
@@ -17,9 +18,9 @@ constexpr auto ARGS{
 int main(const int argc, char **const argv) {
     const auto start{steady_clock::now()};
 
-    std::string network_name;
-    int num_verts;
-    int num_edges;
+    std::string network_name{};
+    int num_verts{};
+    int num_edges{};
     auto max_cap{std::numeric_limits<int>::max()};
     for (int opt; (opt = getopt(argc, argv, "n:v:e:c:")) != -1;)
         switch (opt) {
