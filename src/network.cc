@@ -23,17 +23,22 @@ std::istream& operator>>(std::istream& sin, Network& network) {
         int from;
         int to;
         int cap;
-        if (sin >> from >> to >> cap; not (
+        int flow;
+        if (sin >> from >> to >> cap >> flow; not (
             0 <= from and from < num_verts
             and 0 <= to and to < num_verts
+            and cap >= 0
+            and 0 <= flow and flow <= cap
         ))
             throw std::runtime_error("invalid network");
 
-        edges.emplace_back(from, to, cap, 0);
-        edges.emplace_back(to, from, cap, cap);
+        edges.emplace_back(from, to, cap, flow);
+        edges.emplace_back(to, from, cap, cap - flow);
         adj[from].emplace_back(2 * i);
         adj[to].emplace_back(2 * i + 1);
     }
+
+    network.evaluate_flow();
 
     return sin;
 }
