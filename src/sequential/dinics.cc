@@ -1,12 +1,12 @@
 #include "sequential/dinics.h"
 
 namespace {
-    constexpr auto inf{std::numeric_limits<int>::max()};
+    constexpr auto INF{std::numeric_limits<int>::max()};
 
-    void build_layers(Network& network, std::vector<int>& dist) {
-        auto& [num_verts, source, sink, num_edges, edges, adj]{network};
+    void build_layers(const Network& network, std::vector<int>& dist) {
+        const auto& [num_verts, source, sink, num_edges, edges, adj]{network};
 
-        std::fill(std::begin(dist), std::end(dist), inf);
+        std::fill(std::begin(dist), std::end(dist), INF);
         std::queue<int> queue{};
 
         dist[source] = 0;
@@ -19,7 +19,7 @@ namespace {
             const auto child_dist{dist[u] + 1};
             for (const auto i: adj[u])
                 if (const auto& [from, to, cap, flow]{edges[i]};
-                flow < cap and dist[to] == inf) {
+                    flow < cap and dist[to] == INF) {
                     dist[to] = child_dist;
                     queue.push(to);
                 }
@@ -73,10 +73,10 @@ namespace sequential {
         std::vector<int> curr(num_verts);
 
         while (true) {
-            if (build_layers(network, dist); dist[sink] == inf)
+            if (build_layers(network, dist); dist[sink] == INF)
                 return;
             std::fill(std::begin(curr), std::end(curr), 0);
-            while (push_flow(network, dist, curr, source, inf) > 0ll);
+            while (push_flow(network, dist, curr, source, INF) > 0ll);
         }
     }
 };

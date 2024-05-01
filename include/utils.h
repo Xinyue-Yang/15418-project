@@ -24,9 +24,16 @@ void parse_args(
 void input_network(const std::string& input_file, Network& network);
 
 void output_time(
+    const steady_clock::time_point& compute_start,
+    const steady_clock::time_point& compute_finish
+);
+
+void output_time(
     const steady_clock::time_point& init_start,
     const steady_clock::time_point& compute_start,
     const steady_clock::time_point& compute_finish
 );
+
+void output_maximum_flow(const Network& network);
 
 void output_network(const std::string& output_file, const Network& network);

@@ -57,6 +57,13 @@ std::ostream& operator<<(std::ostream& sout, const Network& network) {
     return sout;
 }
 
+void Network::reset_flow() {
+    for (int i{}; i < num_edges; ++i) {
+        edges[2 * i].flow = 0;
+        edges[2 * i + 1].flow = edges[2 * i + 1].cap;
+    }
+}
+
 long long Network::evaluate_flow() const {
     for (int i{}; i < num_edges; ++i)
         if (auto cap{edges[2 * i].cap},
