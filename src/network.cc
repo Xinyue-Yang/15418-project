@@ -42,11 +42,11 @@ std::ostream& operator<<(std::ostream& sout, const Network& network) {
     const auto& [num_verts, source, sink, num_edges, edges, adj]{network};
 
     sout << num_verts << ' ' << source << ' ' << sink << ' ' << num_edges
-        << std::endl;
+        << '\n';
 
     for (int i{}; i < num_edges; ++i) {
         const auto& [from, to, cap, flow]{edges[2 * i]};
-        sout << from << ' ' << to << ' ' << cap << ' ' << flow << std::endl;
+        sout << from << ' ' << to << ' ' << cap << ' ' << flow << '\n';
     }
 
     return sout;
