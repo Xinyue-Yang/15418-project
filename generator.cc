@@ -78,7 +78,7 @@ int main(const int argc, char **const argv) {
 
         for (int i{}; i < num_edges; ++i)
             sout << dis_vert(gen) << ' ' << dis_vert(gen) << ' ' << dis_cap(gen)
-                << '\n';
+                << ' ' << 0 << '\n';
     } else
         throw std::runtime_error("invalid output file");
 
