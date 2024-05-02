@@ -9,10 +9,8 @@ find_package(OpenMP REQUIRED)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-Wall -Wextra -Wpedantic)
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_compile_options(-Wall -Wextra -Wpedantic -O3)
 else()
-    message(FATAL_ERROR "CMAKE_BUILD_TYPE must be 'Debug' or 'Release'")
+    add_compile_options(-Wall -Wextra -Wpedantic -O3)
 endif()
 
 add_executable(main main.cc
