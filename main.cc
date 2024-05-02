@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "sequential/edmonds_karp.h"
 #include "sequential/dinics.h"
-#include "parallel/edmonds_karp.h"
+#include "parallel1/edmonds_karp.h"
 
 void run_algo(Network& network, const std::function<void(Network&)>& algo) {
     network.reset_flow();
@@ -27,5 +27,5 @@ int main(const int argc, char **const argv) {
 
     run_algo(network, sequential::run_edmonds_karp);
     run_algo(network, sequential::run_dinics);
-    run_algo(network, parallel::run_edmonds_karp);
+    run_algo(network, parallel1::run_edmonds_karp);
 }

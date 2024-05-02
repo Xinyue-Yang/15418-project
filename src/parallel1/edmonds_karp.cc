@@ -1,4 +1,4 @@
-#include "parallel/edmonds_karp.h"
+#include "parallel1/edmonds_karp.h"
 
 namespace {
     constexpr auto NONE{-1};
@@ -26,8 +26,7 @@ namespace {
         frontier[frontier_size++] = source;
 
         while (frontier_size > 0) {
-#pragma omp parallel for default(none) \
-shared(adj, edges, edge_in, flow_in, \
+#pragma omp parallel for default(none) shared(adj, edges, edge_in, flow_in, \
 frontier_size, frontier, new_frontier_size, new_frontier)
             for (int i = 0; i < frontier_size; ++i)
                 for (const auto j: adj[frontier[i]])
@@ -59,7 +58,7 @@ frontier_size, frontier, new_frontier_size, new_frontier)
     }
 };
 
-namespace parallel {
+namespace parallel1 {
     void run_edmonds_karp(Network& network) {
         auto& [num_verts, source, sink, num_edges, edges, adj]{network};
 
