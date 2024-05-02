@@ -17,7 +17,8 @@ endif()
 
 add_executable(main main.cc
     src/network.cc src/utils.cc
-    src/sequential/edmonds_karp.cc src/sequential/dinics.cc)
+    src/sequential/edmonds_karp.cc src/sequential/dinics.cc
+    src/parallel/edmonds_karp.cc)
 target_include_directories(main PRIVATE include)
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX)
 
