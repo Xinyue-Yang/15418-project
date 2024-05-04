@@ -4,10 +4,16 @@
 #include <fstream>
 #include <limits>
 #include <random>
+#include <sstream>
 
 #include "network.h"
 
 Network parse_network(const std::string& file);
+
+Network parse_delaunay_network(
+    const std::string& file,
+    int max_cap = std::numeric_limits<int>::max()
+);
 
 Network generate_random_network(
     int num_verts,

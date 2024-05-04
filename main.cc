@@ -21,8 +21,9 @@ Network init_network() {
 
     const auto start{steady_clock::now()};
     // const auto network{parse_network("input/diamond.network")};
+    const auto network{parse_delaunay_network("input/delaunay/10.graph")};
     // const auto network{generate_random_network(1000, 1000000)};
-    const auto network{generate_grid_network(64, 64)};
+    // const auto network{generate_grid_network(64, 64)};
     const auto finish{steady_clock::now()};
 
     const auto num_ms{duration_cast<milliseconds>(finish - start).count()};
