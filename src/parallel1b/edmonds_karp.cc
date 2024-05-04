@@ -4,7 +4,7 @@ namespace {
     constexpr auto NONE{-1};
     constexpr auto DUMMY{-2};
     constexpr auto INF{std::numeric_limits<int>::max()};
-};
+}
 
 namespace parallel1b {
     void run_edmonds_karp(Network& network) {
@@ -78,4 +78,4 @@ frontier_size, frontier, new_frontier_size, new_frontier, lock)
         for (int i = 0; i < num_verts; ++i)
             omp_destroy_lock(&lock[i]);
     }
-};
+}

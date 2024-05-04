@@ -5,7 +5,7 @@ namespace {
     constexpr auto NONE{-1};
     constexpr auto DUMMY{-2};
     constexpr auto INF{std::numeric_limits<int>::max()};
-};
+}
 
 namespace parallel1d {
     void run_edmonds_karp(Network& network) {
@@ -71,4 +71,4 @@ frontier_size, frontier, new_frontier_size, new_frontier)
             }
         }
     }
-};
+}

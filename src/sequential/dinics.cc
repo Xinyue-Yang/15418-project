@@ -63,7 +63,7 @@ namespace {
 
         return static_cast<int>(flow_out);
     }
-};
+}
 
 namespace sequential {
     void run_dinics(Network& network) {
@@ -79,4 +79,4 @@ namespace sequential {
             while (push_flow(network, dist, curr, source, INF) > 0ll);
         }
     }
-};
+}

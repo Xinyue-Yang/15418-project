@@ -43,7 +43,7 @@ namespace {
             edges[edge_in[u] ^ 1].flow -= flow_pushed;
         }
     }
-};
+}
 
 namespace sequential {
     void run_edmonds_karp(Network& network) {
@@ -58,4 +58,4 @@ namespace sequential {
             push_flow(network, edge_in, flow_in[sink]);
         }
     }
-};
+}

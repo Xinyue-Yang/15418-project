@@ -8,4 +8,4 @@
 
 namespace parallel1b {
     void run_edmonds_karp(Network& network);
-};
+}
