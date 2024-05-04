@@ -1,4 +1,4 @@
-#include "parallel1/edmonds_karp.h"
+#include "parallel3/edmonds_karp.h"
 
 namespace {
     constexpr auto NONE{-1};
@@ -6,7 +6,7 @@ namespace {
     constexpr auto INF{std::numeric_limits<int>::max()};
 };
 
-namespace parallel1 {
+namespace parallel3 {
     void run_edmonds_karp(Network& network) {
         const auto num_verts{network.num_verts};
         const auto source{network.source};
