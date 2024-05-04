@@ -25,7 +25,3 @@ add_executable(main main.cc
     src/sequential/dinics.cc)
 target_include_directories(main PRIVATE include)
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX)
-
-add_executable(generator generator.cc)
-target_include_directories(generator PRIVATE)
-target_link_libraries(generator PRIVATE)

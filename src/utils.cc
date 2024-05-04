@@ -1,81 +1,49 @@
 #include "utils.h"
 
-void parse_args(
-    const int argc,
-    char **const argv,
-    std::string& input_file,
-    std::string& output_file
-) {
-    std::string network_name;
-    for (int opt; (opt = getopt(argc, argv, "n:")) != -1;)
-        switch (opt) {
-            case 'n': {
-                network_name = optarg;
-                break;
-            }
-            default: {
-                std::cerr << "Usage: " << argv[0] << ' ' << ARGS << std::endl;
-                throw std::runtime_error("invalid args");
-            }
-        }
-
-    if (std::empty(network_name)) {
-        std::cerr << "Usage: " << argv[0] << ' ' << ARGS << std::endl;
-        throw std::runtime_error("invalid args");
-    }
-
-    input_file = "input/" + network_name + ".network";
-    output_file = "output/" + network_name + ".network";
-
-    std::cout << "[args]" << std::endl;
-    std::cout << "network_name = \"" << network_name << "\"" << std::endl;
-    std::cout << "input_file = \"" << input_file << "\"" << std::endl;
-    std::cout << "output_file = \"" << output_file << "\"" << std::endl;
-    std::cout << std::endl;
-}
-
-void input_network(const std::string& input_file, Network& network) {
-    if (std::ifstream sin{input_file}; sin)
+Network parse_network(const std::string& file) {
+    Network network{};
+    if (std::ifstream sin{file}; sin)
         sin >> network;
     else
         throw std::runtime_error("invalid input file");
+    return network;
 }
 
-void output_time(
-    const steady_clock::time_point& compute_start,
-    const steady_clock::time_point& compute_finish
+Network generate_random_network(
+    const int num_verts,
+    const int num_edges,
+    const int max_cap
 ) {
-    std::cout << "[time]" << std::endl;
-    std::cout << "compute_time = "
-        << duration_cast<milliseconds>(compute_finish - compute_start).count()
-        << std::endl;
-    std::cout << std::endl;
-}
+    if (not (num_verts >= 2 and num_edges >= 0))
+        throw std::runtime_error("invalid network: bad specifications");
 
-void output_time(
-    const steady_clock::time_point &init_start,
-    const steady_clock::time_point &compute_start,
-    const steady_clock::time_point &compute_finish
-) {
-    std::cout << "[time]" << std::endl;
-    std::cout << "init_time = "
-        << duration_cast<milliseconds>(compute_start - init_start).count()
-        << std::endl;
-    std::cout << "compute_time = "
-        << duration_cast<milliseconds>(compute_finish - compute_start).count()
-        << std::endl;
-    std::cout << std::endl;
-}
+    std::mt19937 gen{std::random_device{}()};
+    std::uniform_int_distribution dis_vert(0, num_verts - 1);
+    std::uniform_int_distribution dis_cap(0, max_cap);
 
-void output_maximum_flow(const Network& network) {
-    std::cout << "[maximum_flow]" << std::endl;
-    std::cout << "value = " << network.evaluate_flow() << std::endl;
-    std::cout << std::endl;
-}
+    Network network{
+        num_verts,
+        dis_vert(gen),
+        dis_vert(gen),
+        num_edges,
+        {},
+        std::vector<std::vector<int>>(num_verts)
+    };
 
-void output_network(const std::string& output_file, const Network& network) {
-    if (std::ofstream sout{output_file}; sout)
-        sout << network;
-    else
-        throw std::runtime_error("invalid output file");
+    while (network.sink == network.source)
+        network.sink = dis_vert(gen);
+
+    network.edges.reserve(num_edges * 2);
+    for (int i{}; i < num_edges; ++i) {
+        const auto from{dis_vert(gen)};
+        const auto to{dis_vert(gen)};
+        const auto cap{dis_cap(gen)};
+
+        network.edges.emplace_back(from, to, cap, 0);
+        network.edges.emplace_back(to, from, cap, cap);
+        network.adj[from].emplace_back(2 * i);
+        network.adj[to].emplace_back(2 * i + 1);
+    }
+
+    return network;
 }

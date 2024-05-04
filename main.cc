@@ -1,3 +1,6 @@
+#include <chrono>
+#include <iostream>
+
 #include <omp.h>
 
 #include "network.h"
@@ -11,33 +14,41 @@
 #include "parallel2b/edmonds_karp.h"
 #include "sequential/dinics.h"
 
-void run_algo(Network& network, const std::function<void(Network&)>& algo) {
+using std::chrono::steady_clock, std::chrono::milliseconds;
+
+void run_trial(
+    Network& network,
+    const std::function<void(Network&)>& algo,
+    const std::string& name = "trial"
+) {
     network.reset_flow();
 
-    const auto compute_start{steady_clock::now()};
+    const auto start{steady_clock::now()};
     algo(network);
-    const auto compute_finish{steady_clock::now()};
+    const auto finish{steady_clock::now()};
 
-    output_time(compute_start, compute_finish);
-    output_maximum_flow(network);
+    const auto max_flow{network.evaluate_flow()};
+    const auto num_ms{duration_cast<milliseconds>(finish - start).count()};
+
+    std::cout << "[" << name << "]" << std::endl;
+    std::cout << "max_flow = " << max_flow << std::endl;
+    std::cout << "num_ms = " << num_ms << std::endl;
+    std::cout << std::endl;
 }
 
 int main(const int argc, char **const argv) {
     omp_set_num_threads(8);
 
-    std::string input_file;
-    std::string output_file;
-    parse_args(argc, argv, input_file, output_file);
+    auto network{parse_network("input/diamond.network")};
+    // auto network{generate_random_network(500, 250000)};
 
-    Network network;
-    input_network(input_file, network);
+    run_trial(network, sequential::run_edmonds_karp, "seq_ek");
+    run_trial(network, parallel1a::run_edmonds_karp, "par1a_ek");
+    run_trial(network, parallel1b::run_edmonds_karp, "par1b_ek");
+    run_trial(network, parallel1c::run_edmonds_karp, "par1c_ek");
+    run_trial(network, parallel1d::run_edmonds_karp, "par1d_ek");
+    run_trial(network, parallel2a::run_edmonds_karp, "par2a_ek");
+    run_trial(network, parallel2b::run_edmonds_karp, "par2b_ek");
 
-    run_algo(network, sequential::run_edmonds_karp);
-    run_algo(network, parallel1a::run_edmonds_karp);
-    run_algo(network, parallel1b::run_edmonds_karp);
-    run_algo(network, parallel1c::run_edmonds_karp);
-    run_algo(network, parallel1d::run_edmonds_karp);
-    run_algo(network, parallel2a::run_edmonds_karp);
-    run_algo(network, parallel2b::run_edmonds_karp);
-    run_algo(network, sequential::run_dinics);
+    run_trial(network, sequential::run_dinics, "seq_dn");
 }

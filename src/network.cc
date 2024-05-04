@@ -13,7 +13,7 @@ std::istream& operator>>(std::istream& sin, Network& network) {
         and source != sink
         and num_edges >= 0
     ))
-        throw std::runtime_error("invalid network");
+        throw std::runtime_error("invalid network: bad specifications");
 
     edges.clear();
     edges.reserve(num_edges * 2);
@@ -30,7 +30,7 @@ std::istream& operator>>(std::istream& sin, Network& network) {
             and cap >= 0
             and 0 <= flow and flow <= cap
         ))
-            throw std::runtime_error("invalid network");
+            throw std::runtime_error("invalid network: bad edge");
 
         edges.emplace_back(from, to, cap, flow);
         edges.emplace_back(to, from, cap, cap - flow);

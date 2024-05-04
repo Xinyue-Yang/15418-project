@@ -1,39 +1,15 @@
 #pragma once
 
-#include <unistd.h>
-
-#include <chrono>
-#include <iostream>
 #include <fstream>
+#include <limits>
+#include <random>
 
 #include "network.h"
 
-using std::chrono::steady_clock, std::chrono::milliseconds;
+Network parse_network(const std::string& file);
 
-constexpr auto ARGS{
-    "-n network_name"
-};
-
-void parse_args(
-    int argc,
-    char **argv,
-    std::string& input_file,
-    std::string& output_file
+Network generate_random_network(
+    int num_verts,
+    int num_edges,
+    int max_cap = std::numeric_limits<int>::max()
 );
-
-void input_network(const std::string& input_file, Network& network);
-
-void output_time(
-    const steady_clock::time_point& compute_start,
-    const steady_clock::time_point& compute_finish
-);
-
-void output_time(
-    const steady_clock::time_point& init_start,
-    const steady_clock::time_point& compute_start,
-    const steady_clock::time_point& compute_finish
-);
-
-void output_maximum_flow(const Network& network);
-
-void output_network(const std::string& output_file, const Network& network);
