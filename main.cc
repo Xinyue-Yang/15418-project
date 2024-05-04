@@ -23,7 +23,7 @@ void run_algo(Network& network, const std::function<void(Network&)>& algo) {
 }
 
 int main(const int argc, char **const argv) {
-    omp_set_num_threads(4);
+    omp_set_num_threads(8);
 
     std::string input_file;
     std::string output_file;
