@@ -1,5 +1,7 @@
 #pragma once
 
+#include <omp.h>
+
 #include "network.h"
 
 namespace parallel4 {
