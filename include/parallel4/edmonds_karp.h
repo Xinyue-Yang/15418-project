@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include <omp.h>
 
 #include "network.h"

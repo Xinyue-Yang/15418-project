@@ -1,5 +1,8 @@
 #pragma once
 
+#include <atomic>
+#include <limits>
+
 #include "network.h"
 
 namespace parallel2 {
