@@ -39,7 +39,7 @@ frontier_size, frontier, new_frontier_size, new_frontier)
                     const auto flow_in_u{flow_in[u]};
                     for (const auto j: adj[u])
                         if (const auto& [from, to, cap, flow]{edges[j]};
-                            flow < cap)
+                            flow < cap and edge_in[to] == NONE)
                             if (auto none{NONE};
                                 edge_in[to].compare_exchange_strong(none, j)) {
                                 flow_in[to] = std::min(flow_in_u, cap - flow);
