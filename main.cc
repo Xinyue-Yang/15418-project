@@ -32,12 +32,12 @@ int main(const int argc, char **const argv) {
     Network network;
     input_network(input_file, network);
 
-    run_algo(network, sequential::run_edmonds_karp);
+    // run_algo(network, sequential::run_edmonds_karp);
     run_algo(network, parallel1a::run_edmonds_karp);
     run_algo(network, parallel1b::run_edmonds_karp);
     run_algo(network, parallel1c::run_edmonds_karp);
     run_algo(network, parallel1d::run_edmonds_karp);
-    // run_algo(network, parallel2a::run_edmonds_karp);
+    run_algo(network, parallel2a::run_edmonds_karp);
     // run_algo(network, parallel2b::run_edmonds_karp);
     run_algo(network, sequential::run_dinics);
 }

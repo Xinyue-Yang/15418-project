@@ -18,8 +18,8 @@ namespace parallel2a {
         std::vector<int> flow_in(num_verts);
 
         bool empty_frontier{};
-        std::vector<bool> frontier(num_verts);
-        std::vector<bool> new_frontier(num_verts);
+        std::vector<int> frontier(num_verts);
+        std::vector<int> new_frontier(num_verts);
 
         while (true) {
 #pragma omp parallel for default(none) shared(num_verts, edge_in)
@@ -39,15 +39,16 @@ namespace parallel2a {
 
             while (not empty_frontier) {
                 empty_frontier = true;
+
 #pragma omp parallel for default(none) shared(num_verts, edges, adj, edge_in, \
 flow_in, empty_frontier, frontier, new_frontier)
                 for (int v = 0; v < num_verts; ++v)
                     if (new_frontier[v] = false; edge_in[v] == NONE)
                         for (const auto i: adj[v])
-                            if (const auto& [from, to, cap, flow]{edges[i ^ 1]};
-                                frontier[from] and flow < cap) {
+                            if (const auto& [from, to, cap, flow]{edges[i]};
+                                frontier[to] and flow > 0) {
                                 edge_in[v] = i ^ 1;
-                                flow_in[v] = std::min(flow_in[from], cap - flow);
+                                flow_in[v] = std::min(flow_in[to], flow);
                                 empty_frontier = false;
                                 new_frontier[v] = true;
                                 break;
