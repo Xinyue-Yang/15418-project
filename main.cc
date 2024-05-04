@@ -3,12 +3,12 @@
 #include "network.h"
 #include "utils.h"
 #include "sequential/edmonds_karp.h"
-#include "parallel1/edmonds_karp.h"
-#include "parallel2/edmonds_karp.h"
-#include "parallel3/edmonds_karp.h"
-#include "parallel4/edmonds_karp.h"
-#include "parallel5/edmonds_karp.h"
-#include "parallel6/edmonds_karp.h"
+#include "parallel1a/edmonds_karp.h"
+#include "parallel1b/edmonds_karp.h"
+#include "parallel1c/edmonds_karp.h"
+#include "parallel1d/edmonds_karp.h"
+#include "parallel2a/edmonds_karp.h"
+#include "parallel2b/edmonds_karp.h"
 #include "sequential/dinics.h"
 
 void run_algo(Network& network, const std::function<void(Network&)>& algo) {

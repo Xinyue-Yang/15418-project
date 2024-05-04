@@ -1,4 +1,4 @@
-#include "parallel4/edmonds_karp.h"
+#include "parallel1c/edmonds_karp.h"
 
 namespace {
     constexpr auto NONE{-1};
@@ -6,7 +6,7 @@ namespace {
     constexpr auto INF{std::numeric_limits<int>::max()};
 };
 
-namespace parallel4 {
+namespace parallel1c {
     void run_edmonds_karp(Network& network) {
         const auto num_verts{network.num_verts};
         const auto source{network.source};
@@ -14,18 +14,13 @@ namespace parallel4 {
         auto& edges{network.edges};
         const auto& adj{network.adj};
 
-        std::vector<int> edge_in(num_verts);
+        std::vector<std::atomic<int>> edge_in(num_verts);
         std::vector<int> flow_in(num_verts);
 
         int frontier_size{};
         std::vector<int> frontier(num_verts);
-        int new_frontier_size{};
+        std::atomic<int> new_frontier_size{};
         std::vector<int> new_frontier(num_verts);
-
-        std::vector<omp_lock_t> lock(num_verts);
-#pragma omp parallel for default(none) shared(num_verts, lock)
-        for (int i = 0; i < num_verts; ++i)
-            omp_init_lock(&lock[i]);
 
         while (true) {
 #pragma omp parallel for default(none) shared(num_verts, edge_in)
@@ -38,25 +33,18 @@ namespace parallel4 {
 
             while (frontier_size > 0) {
 #pragma omp parallel for default(none) shared(adj, edges, edge_in, flow_in, \
-frontier_size, frontier, new_frontier_size, new_frontier, lock)
+frontier_size, frontier, new_frontier_size, new_frontier)
                 for (int i = 0; i < frontier_size; ++i) {
                     const auto u{frontier[i]};
                     const auto flow_in_u{flow_in[u]};
                     for (const auto j: adj[u])
                         if (const auto& [from, to, cap, flow]{edges[j]};
-                            flow < cap
-                            and edge_in[to] == NONE
-                            and omp_test_lock(&lock[to])) {
-                            if (edge_in[to] == NONE) {
-                                edge_in[to] = j;
+                            flow < cap and edge_in[to] == NONE)
+                            if (auto none{NONE};
+                                edge_in[to].compare_exchange_strong(none, j)) {
                                 flow_in[to] = std::min(flow_in_u, cap - flow);
-                                int index{};
-#pragma omp atomic capture
-                                index = new_frontier_size++;
-                                new_frontier[index] = to;
+                                new_frontier[new_frontier_size++] = to;
                             }
-                            omp_unset_lock(&lock[to]);
-                        }
                 }
 
                 frontier_size = new_frontier_size;
@@ -65,7 +53,7 @@ frontier_size, frontier, new_frontier_size, new_frontier, lock)
             }
 
             if (edge_in[sink] == NONE)
-                break;
+                return;
             const auto flow_pushed{flow_in[sink]};
 
             for (int i{edge_in[sink]}; i != DUMMY; i = edge_in[edges[i].from]) {
@@ -73,9 +61,5 @@ frontier_size, frontier, new_frontier_size, new_frontier, lock)
                 edges[i ^ 1].flow -= flow_pushed;
             }
         }
-
-#pragma omp parallel for default(none) shared(num_verts, lock)
-        for (int i = 0; i < num_verts; ++i)
-            omp_destroy_lock(&lock[i]);
     }
 };

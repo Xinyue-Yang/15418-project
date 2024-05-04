@@ -5,6 +5,6 @@
 
 #include "network.h"
 
-namespace parallel1 {
+namespace parallel1c {
     void run_edmonds_karp(Network& network);
 };
