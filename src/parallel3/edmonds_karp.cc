@@ -14,12 +14,12 @@ namespace parallel3 {
         auto& edges{network.edges};
         const auto& adj{network.adj};
 
-        std::vector<std::atomic<int>> edge_in(num_verts);
+        std::vector<int> edge_in(num_verts);
         std::vector<int> flow_in(num_verts);
 
         int frontier_size{};
         std::vector<int> frontier(num_verts);
-        std::atomic<int> new_frontier_size{};
+        int new_frontier_size{};
         std::vector<int> new_frontier(num_verts);
 
         while (true) {
@@ -39,12 +39,18 @@ frontier_size, frontier, new_frontier_size, new_frontier)
                     const auto flow_in_u{flow_in[u]};
                     for (const auto j: adj[u])
                         if (const auto& [from, to, cap, flow]{edges[j]};
-                            flow < cap and edge_in[to] == NONE)
-                            if (auto none{NONE};
-                                edge_in[to].compare_exchange_strong(none, j)) {
+                            flow < cap and edge_in[to] == NONE) {
+#pragma omp critical
+                            edge_in[to] = edge_in[to] == NONE ? j : edge_in[to];
+                            if (edge_in[to] == j) {
                                 flow_in[to] = std::min(flow_in_u, cap - flow);
-                                new_frontier[new_frontier_size++] = to;
+
+                                int index{};
+#pragma omp atomic capture
+                                index = new_frontier_size++;
+                                new_frontier[index] = to;
                             }
+                        }
                 }
 
                 frontier_size = new_frontier_size;
