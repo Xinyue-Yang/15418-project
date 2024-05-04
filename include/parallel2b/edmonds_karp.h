@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "network.h"
 
 namespace parallel2b {
