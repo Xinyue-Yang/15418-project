@@ -28,10 +28,7 @@ Network init_network() {
     std::cout << "[init]" << std::endl;
 
     const auto start{steady_clock::now()};
-    // const auto network{parse_network("input/diamond.network")};
-    // const auto network{parse_delaunay_network("input/delaunay/16.graph")};
-    const auto network{generate_random_network(400, 160'000)};
-    // const auto network{generate_grid_network(2, 512)};
+    const auto network{parse_network("input/diamond.network")};
     const auto finish{steady_clock::now()};
 
     const auto num_ms{duration_cast<milliseconds>(finish - start).count()};
@@ -65,7 +62,7 @@ void run_trial(
 }
 
 int main() {
-    omp_set_num_threads(4);
+    omp_set_num_threads(8);
 
     auto network{init_network()};
 
