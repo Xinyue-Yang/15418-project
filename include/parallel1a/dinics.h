@@ -1,5 +1,8 @@
 #pragma once
 
+#include <functional>
+#include <limits>
+
 #include "network.h"
 
 namespace parallel1a {
