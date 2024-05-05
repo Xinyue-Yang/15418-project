@@ -25,12 +25,6 @@ namespace parallel2b {
 #pragma omp parallel for default(none) shared(num_verts, edge_in)
             for (int u = 0; u < num_verts; ++u)
                 edge_in[u] = NONE;
-#pragma omp parallel for default(none) shared(num_verts, frontier)
-            for (int u = 0; u < num_verts; ++u)
-                frontier[u] = false;
-#pragma omp parallel for default(none) shared(num_verts, new_frontier)
-            for (int u = 0; u < num_verts; ++u)
-                new_frontier[u] = false;
 
             edge_in[source] = DUMMY;
             flow_in[source] = INF;
