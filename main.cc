@@ -5,6 +5,7 @@
 
 #include "network.h"
 #include "utils.h"
+
 #include "sequential/edmonds_karp.h"
 #include "parallel1a/edmonds_karp.h"
 #include "parallel1b/edmonds_karp.h"
@@ -12,7 +13,14 @@
 #include "parallel1d/edmonds_karp.h"
 #include "parallel2a/edmonds_karp.h"
 #include "parallel2b/edmonds_karp.h"
+
 #include "sequential/dinics.h"
+#include "parallel1a/dinics.h"
+#include "parallel1b/dinics.h"
+#include "parallel1c/dinics.h"
+#include "parallel1d/dinics.h"
+#include "parallel2a/dinics.h"
+#include "parallel2b/dinics.h"
 
 using std::chrono::steady_clock, std::chrono::milliseconds;
 
@@ -22,8 +30,8 @@ Network init_network() {
     const auto start{steady_clock::now()};
     // const auto network{parse_network("input/diamond.network")};
     // const auto network{parse_delaunay_network("input/delaunay/16.graph")};
-    // const auto network{generate_random_network(500, 250'000)};
-    const auto network{generate_grid_network(64, 64)};
+    const auto network{generate_random_network(400, 160'000)};
+    // const auto network{generate_grid_network(2, 512)};
     const auto finish{steady_clock::now()};
 
     const auto num_ms{duration_cast<milliseconds>(finish - start).count()};
@@ -57,7 +65,7 @@ void run_trial(
 }
 
 int main() {
-    omp_set_num_threads(8);
+    omp_set_num_threads(4);
 
     auto network{init_network()};
 
@@ -68,5 +76,12 @@ int main() {
     run_trial(network, parallel1d::run_edmonds_karp, "par1d_ek");
     run_trial(network, parallel2a::run_edmonds_karp, "par2a_ek");
     run_trial(network, parallel2b::run_edmonds_karp, "par2b_ek");
+
     run_trial(network, sequential::run_dinics, "seq_dn");
+    run_trial(network, parallel1a::run_dinics, "par1a_dn");
+    run_trial(network, parallel1b::run_dinics, "par1b_dn");
+    run_trial(network, parallel1c::run_dinics, "par1c_dn");
+    run_trial(network, parallel1d::run_dinics, "par1d_dn");
+    run_trial(network, parallel2a::run_dinics, "par2a_dn");
+    run_trial(network, parallel2b::run_dinics, "par2b_dn");
 }
