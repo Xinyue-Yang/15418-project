@@ -2,6 +2,7 @@
 
 namespace {
     constexpr auto NONE{-1};
+    constexpr auto DUMMY{-2};
     constexpr auto INF{std::numeric_limits<int>::max()};
 }
 
@@ -13,7 +14,14 @@ namespace parallel1a {
         auto& edges{network.edges};
         const auto& adj{network.adj};
 
+        std::vector<int> edge_in(num_verts);
         std::vector<int> dist(num_verts);
+
+        int frontier_size{};
+        std::vector<int> frontier(num_verts);
+        int new_frontier_size{};
+        std::vector<int> new_frontier(num_verts);
+
         std::vector<int> curr(num_verts);
 
         const std::function<int(int, int)>
@@ -50,23 +58,41 @@ namespace parallel1a {
         }};
 
         while (true) {
-            std::fill(std::begin(dist), std::end(dist), NONE);
-            std::queue<int> queue{};
+#pragma omp parallel for default(none) shared(num_verts, edge_in)
+            for (int u = 0; u < num_verts; ++u)
+                edge_in[u] = NONE;
+#pragma omp parallel for default(none) shared(num_verts, dist)
+            for (int u = 0; u < num_verts; ++u)
+                dist[u] = NONE;
 
+            edge_in[source] = DUMMY;
             dist[source] = 0;
-            queue.emplace(source);
+            frontier[frontier_size++] = source;
 
-            while (not std::empty(queue)) {
-                const auto u{queue.front()};
-                queue.pop();
+            while (frontier_size > 0) {
+#pragma omp parallel for default(none) shared(adj, edges, edge_in, dist, \
+frontier_size, frontier, new_frontier_size, new_frontier)
+                for (int i = 0; i < frontier_size; ++i) {
+                    const auto u{frontier[i]};
+                    for (const auto j: adj[u])
+                        if (const auto& [from, to, cap, flow]{edges[j]};
+                            flow < cap and edge_in[to] == NONE) {
+#pragma omp critical
+                            edge_in[to] = edge_in[to] == NONE ? j : edge_in[to];
+                            if (edge_in[to] == j) {
+                                dist[to] = dist[u] + 1;
 
-                const auto child_dist{dist[u] + 1};
-                for (const auto i: adj[u])
-                    if (const auto& [from, to, cap, flow]{edges[i]};
-                        flow < cap and dist[to] == NONE) {
-                        dist[to] = child_dist;
-                        queue.push(to);
-                    }
+                                int index{};
+#pragma omp atomic capture
+                                index = new_frontier_size++;
+                                new_frontier[index] = to;
+                            }
+                        }
+                }
+
+                frontier_size = new_frontier_size;
+                new_frontier_size = 0;
+                std::swap(frontier, new_frontier);
             }
 
             if (dist[sink] == NONE)
