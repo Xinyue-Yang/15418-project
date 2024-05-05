@@ -22,6 +22,7 @@ add_executable(main main.cc
     src/parallel1d/edmonds_karp.cc
     src/parallel2a/edmonds_karp.cc
     src/parallel2b/edmonds_karp.cc
-    src/sequential/dinics.cc)
+    src/sequential/dinics.cc
+    src/parallel1a/dinics.cc)
 target_include_directories(main PRIVATE include)
 target_link_libraries(main PRIVATE OpenMP::OpenMP_CXX)
