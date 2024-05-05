@@ -36,13 +36,13 @@ namespace parallel1b {
                 return flow_in;
 
             const auto degree{static_cast<int>(std::size(adj[u]))};
-            const auto child_dist{dist[u] + 1};
+            const auto dist_v{dist[u] + 1};
 
             int flow_out{};
             for (auto& i{curr[u]}; i < degree; ++i) {
                 const auto j{adj[u][i]};
                 if (auto& [from, to, cap, flow]{edges[j]};
-                    flow < cap and dist[to] == child_dist) {
+                    flow < cap and dist[to] == dist_v) {
                     const auto flow_pushed{
                         push_flow(to, std::min(flow_in - flow_out, cap - flow))
                     };
@@ -73,13 +73,14 @@ namespace parallel1b {
 frontier_size, frontier, new_frontier_size, new_frontier, lock)
                 for (int i = 0; i < frontier_size; ++i) {
                     const auto u{frontier[i]};
+                    const auto dist_v{dist[u] + 1};
                     for (const auto j: adj[u])
                         if (const auto& [from, to, cap, flow]{edges[j]};
                             flow < cap
                             and dist[to] == NONE
                             and omp_test_lock(&lock[to])) {
                             if (dist[to] == NONE) {
-                                dist[to] = dist[u] + 1;
+                                dist[to] = dist_v;
 
                                 int index{};
 #pragma omp atomic capture

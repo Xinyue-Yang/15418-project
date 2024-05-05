@@ -17,11 +17,11 @@ namespace {
             const auto u{queue.front()};
             queue.pop();
 
-            const auto child_dist{dist[u] + 1};
+            const auto dist_v{dist[u] + 1};
             for (const auto i: adj[u])
                 if (const auto& [from, to, cap, flow]{edges[i]};
                     flow < cap and dist[to] == NONE) {
-                    dist[to] = child_dist;
+                    dist[to] = dist_v;
                     queue.push(to);
                 }
         }
@@ -37,13 +37,13 @@ namespace {
             return flow_in;
 
         const auto degree{static_cast<int>(std::size(adj[u]))};
-        const auto child_dist{dist[u] + 1};
+        const auto dist_v{dist[u] + 1};
 
         int flow_out{};
         for (auto& i{curr[u]}; i < degree; ++i) {
             const auto j{adj[u][i]};
             if (auto& [from, to, cap, flow]{edges[j]};
-                flow < cap and dist[to] == child_dist) {
+                flow < cap and dist[to] == dist_v) {
                 const auto flow_pushed{push_flow(
                     network, dist, curr,
                     to, std::min(flow_in - flow_out, cap - flow)
