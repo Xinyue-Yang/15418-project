@@ -34,7 +34,7 @@ namespace {
         auto& [num_verts, source, sink, num_edges, edges, adj]{network};
 
         if (u == sink)
-            return static_cast<int>(flow_in);
+            return flow_in;
 
         const auto degree{static_cast<int>(std::size(adj[u]))};
         const auto child_dist{dist[u] + 1};
@@ -74,7 +74,7 @@ namespace sequential {
             if (build_layers(network, dist); dist[sink] == NONE)
                 return;
             std::fill(std::begin(curr), std::end(curr), 0);
-            while (push_flow(network, dist, curr, source, INF) > 0ll);
+            while (push_flow(network, dist, curr, source, INF) > 0);
         }
     }
 }
