@@ -18,3 +18,7 @@ and (2) within each algorithm,
 the top-down and bottom-up parallelism approaches are more suitable for sparse
 and dense networks,
 respectively.
+
+<a href="docs/report.pdf" class="image fit">
+    <img src="docs/poster.pdf" alt="poster">
+</a>
