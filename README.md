@@ -20,5 +20,5 @@ and dense networks,
 respectively.
 
 <a href="docs/report.pdf" class="image fit">
-    <img src="docs/poster.pdf" alt="poster">
+    <img src="docs/poster.png" alt="poster">
 </a>
