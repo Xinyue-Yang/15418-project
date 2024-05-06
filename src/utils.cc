@@ -93,6 +93,38 @@ Network generate_random_network(
     return network;
 }
 
+Network generate_clique_network(const int num_verts, const int max_cap) {
+    if (not (num_verts >= 2 and max_cap >= 0))
+        throw std::runtime_error("invalid network: bad specifications");
+
+    const auto num_edges{num_verts * num_verts};
+
+    std::mt19937 gen{std::random_device{}()};
+    std::uniform_int_distribution dis_cap(0, max_cap);
+
+    std::vector<int> perm(num_verts);
+    std::iota(std::begin(perm), std::end(perm), 0);
+    std::shuffle(std::begin(perm), std::end(perm), gen);
+
+    Network network{
+        num_verts, perm[0], perm[num_verts - 1], num_edges,
+        {}, std::vector<std::vector<int>>(num_verts),
+    };
+
+    network.edges.reserve(num_edges * 2);
+    for (const auto from: perm)
+        for (const auto to: perm) {
+            const auto cap{dis_cap(gen)};
+
+            network.adj[from].emplace_back(std::size(network.edges));
+            network.edges.emplace_back(from, to, cap, 0);
+            network.adj[to].emplace_back(std::size(network.edges));
+            network.edges.emplace_back(to, from, cap, cap);
+        }
+
+    return network;
+}
+
 Network generate_grid_network(
     const int num_rows,
     const int num_cols,
@@ -103,6 +135,7 @@ Network generate_grid_network(
 
     const auto num_verts{num_rows * num_cols + 2};
     const auto num_edges{num_cols * num_cols * (num_rows - 1) + num_cols * 2};
+
     std::mt19937 gen{std::random_device{}()};
     std::uniform_int_distribution dis_cap(0, max_cap);
 

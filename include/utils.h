@@ -21,6 +21,11 @@ Network generate_random_network(
     int max_cap = std::numeric_limits<int>::max()
 );
 
+Network generate_clique_network(
+    int num_verts,
+    int max_cap = std::numeric_limits<int>::max()
+);
+
 Network generate_grid_network(
     int num_rows,
     int num_cols,
