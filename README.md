@@ -1,10 +1,5 @@
 # Parallel maximum flow
 
-## Project information
-
-- Project name: parallel maximum flow
-- Team members: Siyuan Chen, Xinyue Yang
-
 ## Summary
 
 We parallelized two maximum flow algorithms
@@ -19,6 +14,13 @@ the top-down and bottom-up parallelism approaches are more suitable for sparse
 and dense networks,
 respectively.
 
-<a href="docs/report.pdf" class="image fit">
+<a class="image fit">
     <img src="docs/poster.png" alt="poster">
 </a>
+
+## Links
+
+- The project proposal can be found [here](docs/proposal.pdf).
+- The milestone report can be found [here](docs/milestone.pdf).
+- The final report can be found [here](docs/report.pdf).
+- The poster can be found [here](docs/poster.pdf).
